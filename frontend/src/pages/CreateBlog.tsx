@@ -7,13 +7,18 @@ import {
     Stack,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-export function CreatePost() {
+export function CreateBlog() {
+    const { user } = useAuth();
+    const navigate = useNavigate();
     const form = useForm({
         mode: "uncontrolled", // better performance
         initialValues: {
             title: "",
             content: "",
+            authorId: "",
         },
         validate: {
             title: (value) =>
@@ -23,10 +28,36 @@ export function CreatePost() {
         },
     });
 
-    const handleSubmit = (values: typeof form.values) => {
-        console.log("Sending to backend:", values);
-        // Here you would make your fetch() or axios.post() call to your backend
-        // fetch('http://localhost:5000/api/posts', { method: 'POST', body: JSON.stringify(values) })
+    const handleSubmit = async (values: typeof form.values) => {
+        if (!user) {
+            console.error("You must be logged in to write a blog");
+            return;
+        }
+        values.authorId = user._id;
+        console.log("Blog sent to backend:", values);
+
+        try {
+            const res = await fetch("http://localhost:8008/api/posts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+
+            const data = await res.json();
+            const blogId = data._id;
+
+            if (!res.ok)
+                throw new Error(
+                    data.message || "Something went wrong. Try refreshing.",
+                );
+            console.log(data);
+
+            navigate(`/blog/${blogId}`);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (

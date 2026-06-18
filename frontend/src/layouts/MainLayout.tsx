@@ -39,7 +39,7 @@ export function MainLayout() {
                             <Title order={2}>Blogga</Title>
                         </Button>
                     </Group>
-                    <Group>
+                    <Group visibleFrom="xs">
                         {loading ? (
                             <Skeleton height={36} width={150} radius="xl" />
                         ) : user ? (

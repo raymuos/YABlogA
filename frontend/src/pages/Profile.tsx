@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 export default function Profile() {
     const { user, loading, logout } = useAuth();
     const navigate = useNavigate();
-    const handleLogout = async () => {
-        await logout();
+    const handleLogout = () => {
+        logout();
         navigate("/");
     };
     // 1. Loading State

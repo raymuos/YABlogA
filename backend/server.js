@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { router as userRouter } from "./routes/user.js";
+import { router as postsRouter } from "./routes/posts.js";
 import { connectMongoDb } from "./dbconnect.js";
 import { checkCookie } from "./middlewares/auth.js";
 
@@ -19,7 +20,7 @@ app.use(cookieParser());
 app.use(checkCookie("token"));
 
 app.use("/api/users", userRouter);
-// app.use("/api/posts", postsRouter);
+app.use("/api/posts", postsRouter);
 
 connectMongoDb()
     .then(console.log("MongoDB connected!"))

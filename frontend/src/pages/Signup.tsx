@@ -26,7 +26,7 @@ export function Signup() {
             const res = await fetch("http://localhost:8008/api/users/signup", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json", // <-- ADD THIS LINE
+                    "Content-Type": "application/json",
                 },
                 credentials: "include",
                 body: JSON.stringify(values),
