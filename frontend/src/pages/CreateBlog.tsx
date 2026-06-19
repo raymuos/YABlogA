@@ -46,7 +46,6 @@ export function CreateBlog() {
             });
 
             const data = await res.json();
-            const blogId = data._id;
 
             if (!res.ok)
                 throw new Error(
@@ -54,7 +53,7 @@ export function CreateBlog() {
                 );
             console.log(data);
 
-            navigate(`/blog/${blogId}`);
+            navigate("/");
         } catch (err) {
             console.log(err);
         }
